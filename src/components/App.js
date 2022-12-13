@@ -1,21 +1,18 @@
 import React from 'react';
-
-//import all components
 import Header from './Header.js';
 import Main from './Main.js';
 import Footer from './Footer.js';
 import ImagePopup from './ImagePopup.js';
-
-//11th task
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import { api } from '../utils/api';
 import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import DeleteCardPopup from './DeleteCardPopup';
+import {withRouter, useHistory, Redirect, Switch, Route} from 'react';
+import ProtectedRoute from './ProtectedRoute.js';
 
 function App() {
-
   const [isUpdateAvatarPopupOpen, setIsUpdateAvatarPopupOpen] = React.useState(false);
   const [isUpdateProfilePopupOpen, setIsUpdateProfilePopupOpen] = React.useState(false);
   const [isAddElementPopupOpen, setIsAddElementPopupOpen] = React.useState(false);
@@ -152,15 +149,25 @@ function App() {
       <div className="page">
         <div className="page__container">
           <Header />
-          <Main
-            onChangeAvatar={handleUpdateAvatarClick}
-            onUpdateProfile={handleUpdateProfileClick}
-            onAddElement={handleAddElementClick}
-            onCardClick={handleCardClick}
-            onDeleteClick={handleEConfirmDeletionClick}
-            cards={cards}
-            handleCardLike={handleCardLike}
-          />
+          <Switch>
+            <Route path="/sign-up">
+            </Route>
+            <Route path="/sign-in">
+            </Route>
+            <ProtectedRoute
+              exact
+              path="/"
+              component={Main}
+              onChangeAvatar={handleUpdateAvatarClick}
+              onUpdateProfile={handleUpdateProfileClick}
+              onAddElement={handleAddElementClick}
+              onCardClick={handleCardClick}
+              onDeleteClick={handleEConfirmDeletionClick}
+              cards={cards}
+              handleCardLike={handleCardLike}
+             >
+            </ProtectedRoute>
+          </Switch>
           <Footer />
 
           <ImagePopup card={selectedCard} onClose={closeAllPopups} onOverlay={closeViaOverlayClick} />
@@ -183,4 +190,4 @@ function App() {
   );
 }
 
-export default App;
+export default withRouter(App);
