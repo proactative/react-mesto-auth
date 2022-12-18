@@ -9,18 +9,28 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import DeleteCardPopup from './DeleteCardPopup';
-import {withRouter, useHistory, Redirect, Switch, Route} from 'react';
+import { useHistory, Redirect } from 'react';
+import { Route, withRouter, Switch } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute.js';
+import Register from "./Register";
+import Login from "./Login";
+import InfoTooltip from './InfoToolTip';
+import * as auth from "../utils/auth.js";
 
 function App() {
   const [isUpdateAvatarPopupOpen, setIsUpdateAvatarPopupOpen] = React.useState(false);
   const [isUpdateProfilePopupOpen, setIsUpdateProfilePopupOpen] = React.useState(false);
   const [isAddElementPopupOpen, setIsAddElementPopupOpen] = React.useState(false);
   const [isConfirmDeletionPopupOpen, setIsConfirmDeletionPopupOpen] = React.useState(false);
+  const [isInfoTooltipPopupOpen, setInfoTooltipPopupOpen] = React.useState(false);
+  const [isRegisterSuccess, setIsRegisterSuccess] = React.useState(false);
   const [deletionCardId, setDeletionCardId] = React.useState(null);
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({ name: '', about: '', _id: '', avatar: '' });
   const [cards, setCards] = React.useState([]);
+  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [headerLink, setHeaderLink] = React.useState({ route: "/sign-up", name: "Регистрация" });
+
 
   React.useEffect(() => {
     api
@@ -148,13 +158,15 @@ function App() {
 
       <div className="page">
         <div className="page__container">
-          <Header />
+          <Header headerLink={headerLink} />
           <Switch>
             <Route path="/sign-up">
+              <Register handleHeaderLink={setHeaderLink} />
             </Route>
             <Route path="/sign-in">
+              <Login handleHeaderLink={setHeaderLink} />
             </Route>
-            <ProtectedRoute
+            {/*<ProtectedRoute
               exact
               path="/"
               component={Main}
@@ -166,9 +178,9 @@ function App() {
               cards={cards}
               handleCardLike={handleCardLike}
              >
-            </ProtectedRoute>
+           </ProtectedRoute>*/}
           </Switch>
-          <Footer />
+          {loggedIn && <Footer />}
 
           <ImagePopup card={selectedCard} onClose={closeAllPopups} onOverlay={closeViaOverlayClick} />
 
@@ -183,7 +195,7 @@ function App() {
 
           {/*confirm deletion*/}
           <DeleteCardPopup isOpen={isConfirmDeletionPopupOpen} onCloseIcon={closeAllPopups} onOverlay={closeViaOverlayClick} onConfirmDeletion={onConfirmDeletion} />
-
+          <InfoTooltip isOpen={isInfoTooltipPopupOpen} isRegisterSuccess={isRegisterSuccess} name={"info"} onCloseIcon={closeAllPopups} onOverlay={closeViaOverlayClick} />
         </div>
       </div>
     </CurrentUserContext.Provider>
