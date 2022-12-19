@@ -242,7 +242,7 @@ function App() {
               handleCardLike={handleCardLike} >
             </ProtectedRoute>
             <Route>
-              {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+              {loggedIn ? <Redirect to="/" /> : <Redirect to="./sign-in" />}
             </Route>
           </Switch>
           {loggedIn && <Footer />}
