@@ -9,7 +9,7 @@ import EditProfilePopup from './EditProfilePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 import DeleteCardPopup from './DeleteCardPopup';
-import { Route, withRouter, Switch, useHistory, Redirect} from 'react-router-dom';
+import { Route, withRouter, Switch, useHistory, Redirect } from 'react-router-dom';
 import ProtectedRoute from './ProtectedRoute.js';
 import Register from "./Register";
 import Login from "./Login";
@@ -87,14 +87,14 @@ function App() {
 
   React.useEffect(() => {
     if (loggedIn) {
-    api
-      .getUserInfo()
-      .then((userData) => {
-        setCurrentUser(userData)
-      })
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      })
+      api
+        .getUserInfo()
+        .then((userData) => {
+          setCurrentUser(userData)
+        })
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
+        })
     }
   }, [loggedIn]);
 
@@ -146,14 +146,14 @@ function App() {
   //5 state-lifting
   React.useEffect(() => {
     if (loggedIn) {
-    api
-      .getInitialCards()
-      .then((cards) => {
-        setCards(cards)
-      })
-      .catch((err) => {
-        console.log(`Ошибка: ${err}`);
-      })
+      api
+        .getInitialCards()
+        .then((cards) => {
+          setCards(cards)
+        })
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
+        })
     }
   }, [loggedIn]);
 
@@ -242,7 +242,7 @@ function App() {
               handleCardLike={handleCardLike} >
             </ProtectedRoute>
             <Route>
-            {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+              {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
             </Route>
           </Switch>
           {loggedIn && <Footer />}
@@ -260,8 +260,8 @@ function App() {
 
           {/*confirm deletion*/}
           <DeleteCardPopup isOpen={isConfirmDeletionPopupOpen} onCloseIcon={closeAllPopups} onOverlay={closeViaOverlayClick} onConfirmDeletion={onConfirmDeletion} />
-          
-           {/*info tooltip*/}
+
+          {/*info tooltip*/}
           <InfoTooltip isOpen={isInfoTooltipPopupOpen} isRegisterSuccess={isRegisterSuccess} onCloseIcon={closeAllPopups} onOverlay={closeViaOverlayClick} />
         </div>
       </div>
