@@ -10,7 +10,7 @@ function Header({ headerLink, userEmail, loggedIn, logOut }) {
             {!loggedIn && <Link className="header__link" to={headerLink.route}>{headerLink.name}</Link>}
             {loggedIn && <div className="header__menu">
                 <span className="header__userEmail">email{userEmail}</span>
-                <Link className="header__link header__link_exit" to='/sign-up' onClick={logOut}>Выйти</Link>
+                <Link className="header__link header__link_exit" to='/sign-in' onClick={logOut}>Выйти</Link>
             </div>}
         </header>
     )

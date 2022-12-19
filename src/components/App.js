@@ -38,7 +38,6 @@ function App() {
       .then((data) => {
         if (data.token) {
           setUserEmail(email);
-          {/*setValues({});*/}
           setLoggedIn(true);
           history.push("/");
         }
@@ -87,7 +86,7 @@ function App() {
   }
 
   React.useEffect(() => {
-    if (loggedIn)
+    if (loggedIn) {
     api
       .getUserInfo()
       .then((userData) => {
@@ -96,6 +95,7 @@ function App() {
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
       })
+    }
   }, [loggedIn]);
 
   function logOut() {
@@ -133,6 +133,7 @@ function App() {
     setIsAddElementPopupOpen(false);
     setIsConfirmDeletionPopupOpen(false);
     setSelectedCard(null);
+    setInfoTooltipPopupOpen(false);
   }
 
   // 4) close via clicking on overlay
@@ -144,7 +145,7 @@ function App() {
 
   //5 state-lifting
   React.useEffect(() => {
-    if (loggedIn)
+    if (loggedIn) {
     api
       .getInitialCards()
       .then((cards) => {
@@ -153,6 +154,7 @@ function App() {
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
       })
+    }
   }, [loggedIn]);
 
   function handleCardLike(card) {
@@ -229,6 +231,7 @@ function App() {
             </Route>
             <ProtectedRoute
               exact path="/"
+              loggedIn={loggedIn}
               component={Main}
               onChangeAvatar={handleUpdateAvatarClick}
               onUpdateProfile={handleUpdateProfileClick}
@@ -237,8 +240,10 @@ function App() {
               onDeleteClick={handleEConfirmDeletionClick}
               cards={cards}
               handleCardLike={handleCardLike} >
-              {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-up" />}
-           </ProtectedRoute>
+            </ProtectedRoute>
+            <Route>
+            {loggedIn ? <Redirect to="/" /> : <Redirect to="/sign-in" />}
+            </Route>
           </Switch>
           {loggedIn && <Footer />}
 
