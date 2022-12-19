@@ -75,13 +75,17 @@ function App() {
     const jwt = localStorage.getItem("jwt");
 
     if (jwt) {
-      auth.checkToken(jwt).then((res) => {
-        if (res) {
-          setUserEmail(res.data.email);
-          setLoggedIn(true);
-          history.push("/");
-        }
-      });
+      auth.checkToken(jwt)
+        .then((res) => {
+          if (res) {
+            setUserEmail(res.data.email);
+            setLoggedIn(true);
+            history.push("/");
+          }
+        })
+        .catch((err) => {
+          console.log(`Ошибка: ${err}`);
+        })
     }
   }
 
